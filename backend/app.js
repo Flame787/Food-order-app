@@ -79,6 +79,6 @@ app.listen(3000, () => {
 
 1. npm install  -> install dependencies for backend
 
-2. node app.js  -> to start the backend server
+2. npm start  /  node app.js  -> to start the backend server
 
 */
