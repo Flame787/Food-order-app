@@ -1,7 +1,7 @@
 import { createPortal } from "react-dom";
 import { useEffect, useRef } from "react";
 
-export default function Modal({ children, open, className = "" }) {
+export default function Modal({ children, open, onClose, className = "" }) {
   // using Portal feature, so that we can use Modal from anywhere in the component tree,
   // but we want to inject this Modal/<dialog> in the specific hrml-area that we define upfront:
   // <div id="modal"></div>
@@ -27,7 +27,7 @@ export default function Modal({ children, open, className = "" }) {
   }, [open]);
 
   return createPortal(
-    <dialog ref={dialog} className={`modal ${className}`}>
+    <dialog ref={dialog} className={`modal ${className}`} onClose={onClose}>
       {children}
     </dialog>,
     document.getElementById("modal")

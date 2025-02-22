@@ -23,8 +23,16 @@ export default function Cart() {
     userProgressCtx.hideCart();
   }
 
+  function handleGoToCheckout() {
+    userProgressCtx.showCheckout(); // sets userProgress to 'checkout' and no longer 'cart'
+  }
+
   return (
-    <Modal className="cart" open={userProgressCtx.progress === "cart"}>
+    <Modal
+      className="cart"
+      open={userProgressCtx.progress === "cart"}
+      onClose={userProgressCtx.progress === "cart" ? handleCloseCart : null}
+    >
       {/* when progress = 'cart', we want to show the Modal */}
       <h2>Your Cart</h2>
       <ul>
@@ -50,7 +58,13 @@ export default function Cart() {
         <Button textOnly onClick={handleCloseCart}>
           Close
         </Button>
-        <Button onClick={handleCloseCart}>Go to Checkout</Button>
+        {/* {cartCtx.items.length > 0 ? (<Button onClick={handleCloseCart}>Go to Checkout</Button>) : null} */}
+        {cartCtx.items.length > 0 && (
+          <Button onClick={handleGoToCheckout}>Go to Checkout</Button>
+        )}
+        {/* if number of items is > 0, show the Button to proceed to Checkout, otherwise (if cart is empty) not showing it */}
+        {/* when 2nd button is clicked (if there are items in cart), the existing, first Modal will close,
+      and another Modal - Checkout will open instead */}
       </p>
     </Modal>
   );
