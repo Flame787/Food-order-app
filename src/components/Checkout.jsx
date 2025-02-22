@@ -21,12 +21,38 @@ export default function Checkout() {
     userProgressCtx.hideCheckout(); // sets userProgressCtx to empty string ("") again
   }
 
+  function handleSubmit(event) {
+    event.preventDefault();
+    // prevents immediate submitting the form, instead we may want to perform other actions, like validation etc.
+
+    const fd = new FormData(event.target);
+    const customerData = Object.fromEntries(fd.entries());  // { email: abcdef@test.com }
+
+    console.log("items", cartCtx.items);
+    console.log("CuData", customerData);
+
+    // sending info abount ordered meals to the backend, on form-submit:
+    fetch('http://localhost:3000/orders', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            order: {
+                items: cartCtx.items,
+                customer: customerData
+            }
+        })
+    });
+    // this is a request that changes something on backend, and we don't have to wait for response
+  }
+
   return (
     <Modal open={userProgressCtx.progress === "checkout"} onClose={handleClose}>
-      <form action="">
+      <form onSubmit={handleSubmit}>
         <h2>Checkout</h2>
         <p>Total amount: {currencyFormatter.format(cartTotal)}</p>
-        <Input label="Full Name" type="text" id="full-name" />
+        <Input label="Full Name" type="text" id="name" />
         <Input label="Email Address" type="email" id="email" />
         <Input label="Street" type="text" id="street" />
         <div className="control-row">

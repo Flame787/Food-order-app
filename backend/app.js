@@ -3,11 +3,15 @@ import fs from 'node:fs/promises';
 
 import bodyParser from 'body-parser';
 import express from 'express';
+import cors from 'cors';   // if frontend and backend are not on the same server
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(express.static('public'));
+
+// const cors = require('cors');
+app.use(cors());
 
 app.use((req, res, next) => {   // Middleware function starting on every comming HTTP request
   res.setHeader('Access-Control-Allow-Origin', '*');  // enables access to API from all * domains
@@ -33,7 +37,7 @@ app.post('/orders', async (req, res) => {
 
   if (
     orderData.customer.email === null ||
-    !orderData.customer.email.includes('@') ||
+    // !orderData.customer.email.includes('@') ||
     orderData.customer.name === null ||
     orderData.customer.name.trim() === '' ||
     orderData.customer.street === null ||
