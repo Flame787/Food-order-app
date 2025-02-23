@@ -10,8 +10,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* background: linear-gradient(#7b7464, #d3c69a); */
-  background: linear-gradient(#647b64, #67784f);
-  background: url("../backend/public/images/burger.jpg");
+  /* background: linear-gradient(#647b64, #67784f); */
+  background: url("../public/burger.jpg");
   color: #d9e2f1;
   min-height: 100vh;
 }
@@ -267,6 +267,28 @@ h1 {
 
 .modal::backdrop {
   background-color: rgba(0, 0, 0, 0.55);
+}
+
+.center {
+  text-align: center;
+}
+ 
+.error {
+  width: 90%;
+  max-width: 25rem;
+  margin: 2rem auto;
+  padding: 1rem;
+  background-color: #f9b8b8;
+  color: #6d0b0b;
+  border-radius: 6px;
+}
+ 
+.error h2 {
+  margin: 0;
+}
+ 
+.error p {
+  margin: 0;
 }
 
 @keyframes fade-slide-up {

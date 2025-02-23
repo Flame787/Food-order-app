@@ -4,6 +4,7 @@ const CartContext = createContext({
   items: [],
   addItem: (item) => {},
   removeItem: (id) => {},
+  clearCart: () => {}    // NEW dummy value
 });
 
 // useReducer needs a reducer-function, defined outside of the hook:
@@ -77,6 +78,11 @@ function cartReducer(state, action) {
     return { ...state, items: updatedItems };
   }
 
+  if(action.type === 'CLEAR_CART'){
+    return {...state, items: []}
+    // creating new state which copies/spreads the old state, but clears the items to an empty array []
+  }
+
   return state; // 3rd option, if both if-blocks are somehow avoided - just return the state
 }
 
@@ -97,6 +103,10 @@ export function CartContextProvider({ children }) {
     dispatchCartAction({ type: "REMOVE_ITEM", id });
   }
 
+  function clearCart() {
+    dispatchCartAction({ type: "CLEAR_CART"});
+  }
+
   const cartContext = {
     items: cartState.items,
     // whenever the cartState changes, the value of items will also change, and new cartContext will be distributed to components who use it
@@ -107,6 +117,7 @@ export function CartContextProvider({ children }) {
     // *shorter:
     addItem,
     removeItem,
+    clearCart
   };
 
   console.log(cartContext);

@@ -25,13 +25,18 @@ export default function useHttp(url, config, initalData) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(); // fail-case
 
+  // function for resetting the success-state after order was once sent:
+  function clearData(){
+    setData(initalData);
+  }
+
   // function which is updating a state based on sent request:
   // wrapping this function whith useCallback, to avoid infinite loop:
   const sendRequest = useCallback(
-    async function sendRequest() {
+    async function sendRequest(data) {
       setIsLoading(true);
       try {
-        const resData = await sendHttpRequest(url, config);
+        const resData = await sendHttpRequest(url, {...config, body: data});
         setData(resData);
       } catch (error) {
         setError(error.message || "Something went wrong!");
@@ -52,11 +57,13 @@ export default function useHttp(url, config, initalData) {
 
   }, [sendRequest, config]);
 
+  // exposing values and methods to components using this custom-hook:
   return {
     data,
     isLoading,
     error,
     sendRequest, // now every component which uses this custom-hook cna use sendRequest-function - exposed
-  };
+    clearData
+};
   // whatever component is using this custom-hook, it can get this object with data, isLoading and error-state
 }

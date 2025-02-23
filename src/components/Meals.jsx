@@ -3,10 +3,11 @@
 // import { useState, useEffect } from "react";
 
 import MealItem from "./MealItem";
+import Error from "./Error";
 
 import useHttp from "../hooks/useHttp";
 
-const requestConfig = {};  // a trick to put instead of config - a 2nd argument of the useHttp-custom-hook
+const requestConfig = {}; // a trick to put instead of config - a 2nd argument of the useHttp-custom-hook
 // now we are creating this object only once, and later in component function just re-using the same object
 
 export default function Meals() {
@@ -53,7 +54,12 @@ export default function Meals() {
   // this would change state and cause that component re-renders, and we would create an infinite loop.
 
   if (isLoading) {
-    return <p>Fetching meals...</p>;
+    return <p className="center">Fetching meals...</p>;
+  }
+
+  if (error) {
+    return <Error title="Failed to fetch meals" message={error} />;
+    // {error} - defined in custom-hook useHttp
   }
 
   return (
